@@ -1,71 +1,80 @@
-<!doctype html>
-<html lang="en">
- <head>
- <meta charset="UTF-8">
- <meta name="Generator" content="EditPlus®">
- <meta name="Author" content="">
- <meta name="Keywords" content="">
- <meta name="Description" content="">
- <title>Hello, Mr Xss, Welcome to Leamou's home</title>
- <script>
- 	<script>
-  var canvas=document.getElementById("canvas");
-  var context=canvas.getContext("2d");
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
-  function Circle(){
-    this.x=Math.random()*canvas.width;
-    this.y=canvas.height;
-    this.r=Math.random()*10;
-    //绘制圆形
-    this.paint=function(){
-      context.beginPath();
-      context.arc(this.x,this.y,this.r,0,Math.PI*2);
-      context.fillStyle="white";
-      context.globalAlpha = 0.5;
-      context.fill();
-    }
-    //控制圆形移动
-    this.step=function(){
-      this.y--;
-    }
-  }
-  var circles=[];
-  function createCircles(){
-    var circle=new Circle();//??????
-    circles[circles.length]=circle;
-  }
-  
-  function paintCircles(){
-    for(var i=0;i<circles.length;i++){
-      circles[i].paint();
-    }
-  }
-  function stepCircles(){
-    for(var i=0;i<circles.length;i++){
-      circles[i].step();
-    }
-  }
-  var myimg=new Image();
-  myimg.src="images/demo-1.png";
-  var timer="";
-  setInterval(function(){
-    context.drawImage(myimg,0,0);
-    timer++;
-    if(timer%20==0){
-      createCircles();
-    }
-    paintCircles();
-    stepCircles();
-  },10);
+<!DOCTYPE html>
+<html>
+<head>
+	<title>柚柚出生</title>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<style type="text/css">
+		h1 {
+		    font-family:"微软雅黑";
+		    font-size:40px;
+		    margin:20px 0;
+		    border-bottom:solid 1px #ccc;
+		    padding-bottom:20px;
+		    letter-spacing:2px;
+		}
+		.time-item strong {
+		    background:#C71C60;
+		    color:#fff;
+		    line-height:49px;
+		    font-size:36px;
+		    font-family:Arial;
+		    padding:0 10px;
+		    margin-right:10px;
+		    border-radius:5px;
+		    box-shadow:1px 1px 3px rgba(0,0,0,0.2);
+		}
+		#day_show {
+		    float:left;
+		    line-height:49px;
+		    color:#c71c60;
+		    font-size:32px;
+		    margin:0 10px;
+		    font-family:Arial,Helvetica,sans-serif;
+		}
+		.item-title .unit {
+		    background:none;
+		    line-height:49px;
+		    font-size:24px;
+		    padding:0 10px;
+		    float:left;
+		}
+	</style>
+</head>
+<body>
+<h1>柚柚出生倒计时</h1>
+<div class="time-item">
+    <span id="day_show">0天</span>
+    <strong id="hour_show">0时</strong>
+    <strong id="minute_show">0分</strong>
+    <strong id="second_show">0秒</strong>
+</div>
+<script type="text/javascript">
+	var intDiff = new Date('2018-6-21').getTime() - new Date().getTime();//倒计时总秒数量
+	intDiff = intDiff / 1000;
+	function timer(intDiff){
+	    window.setInterval(function(){
+	    var day=0,
+	        hour=0,
+	        minute=0,
+	        second=0;//时间默认值        
+	    if(intDiff > 0){
+	        day = Math.floor(intDiff / (60 * 60 * 24));
+	        hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+	        minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+	        second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+	    }
+	    if (minute <= 9) minute = '0' + minute;
+	    if (second <= 9) second = '0' + second;
+	    $('#day_show').html(day+"天");
+	    $('#hour_show').html('<s id="h"></s>'+hour+'时');
+	    $('#minute_show').html('<s></s>'+minute+'分');
+	    $('#second_show').html('<s></s>'+second+'秒');
+	    intDiff--;
+	    }, 1000);
+	} 
+	$(function(){
+	    timer(intDiff);
+	}); 
 </script>
- </script>
- <style>
- </style>
- </head>
- <body>
-  <div id="d1">
-    <canvas id="canvas"></canvas>
-  </div>
- </body>
+</body>
 </html>
